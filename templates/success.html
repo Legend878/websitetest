@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Успешный вход</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            text-align: center;
+        }
+        .success {
+            color: green;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .phone-number {
+            color: #0066cc;
+            font-weight: bold;
+        }
+        .password {
+            color: #28a745;
+            font-weight: bold;
+            font-size: 18px;
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin: 10px;
+        }
+        .info-box {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="success">✅ Успешный вход!</div>
+    <h1>Добро пожаловать в личный кабинет!</h1>
+    
+    <div class="info-box">
+        <p><strong>Номер телефона:</strong> <span class="phone-number">{{ phone }}</span></p>
+        <p><strong>Введенный пароль:</strong> <span class="password">{{ password }}</span></p>
+        <p><strong>Статус:</strong> <strong>200 OK</strong></p>
+    </div>
+    
+    <p>Вы успешно вошли в систему.</p>
+    
+    <a href="{{ url_for('index') }}" class="button">На главную</a>
+    <a href="{{ url_for('login') }}" class="button">Выйти</a>
+</body>
+</html>
