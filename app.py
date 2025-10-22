@@ -16,7 +16,7 @@ USERS = {
 }
 
 MAX_ATTEMPTS = 20
-LOCKOUT_TIME = 60
+LOCKOUT_TIME = 5  # Уменьшил до 5 секунд вместо 60
 
 def normalize_phone(phone):
     return ''.join(filter(str.isdigit, phone))
@@ -82,6 +82,7 @@ def password():
                                 remaining_time=remaining_time,
                                 attempts=attempts)
         else:
+            # Время блокировки истекло - сбрасываем счетчик
             session.pop('lockout_time', None)
             session.pop('password_attempts', None)
 
@@ -99,10 +100,8 @@ def password():
             attempts += 1
             session['password_attempts'] = attempts
             
-            if attempts >= MAX_ATTEMPTS:
-                lockout_time = datetime.datetime.now().timestamp() + LOCKOUT_TIME
-                session['lockout_time'] = lockout_time
-            
+            # Убрал блокировку при превышении попыток
+            # Просто продолжаем считать попытки, но не блокируем
             phone = session.get('phone', 'неизвестный номер')
             remaining_attempts = MAX_ATTEMPTS - attempts
             
@@ -111,18 +110,17 @@ def password():
                                 error="Неверный пароль",
                                 attempts=attempts,
                                 remaining_attempts=remaining_attempts,
-                                locked=(attempts >= MAX_ATTEMPTS))
+                                locked=False)  # Всегда false теперь
     
     attempts = session.get('password_attempts', 0)
     remaining_attempts = MAX_ATTEMPTS - attempts
     phone = session.get('phone', 'неизвестный номер')
-    locked = session.get('lockout_time') is not None
     
     return render_template('password.html', 
                          phone=phone,
                          attempts=attempts,
                          remaining_attempts=remaining_attempts,
-                         locked=locked)
+                         locked=False)  # Убрал блокировку
 
 @app.route('/success')
 def success():
